@@ -1,10 +1,10 @@
 const {
- authRoutes,
- PostRoutes,
- commentRoutes,
- postlikeRoutes,
- followRoutes,
- messageRoutes
+  authRoutes,
+  PostRoutes,
+  commentRoutes,
+  postlikeRoutes,
+  followRoutes,
+  messageRoutes,
 } = require('./routes');
 require('dotenv').config();
 const express = require('express');
@@ -22,21 +22,18 @@ const io = new Server(server, { cors: { origin: '*' } });
 global.io = io;
 module.exports = { io };
 
-// io.on('connection', (socket) => {
-//  console.log('user connected');
+io.on('connection', (socket) => {
+  console.log('user connected');
 
-//  socket.on('NEW_MESSAGE', (data) => {
-//   messages.push(data);
-//  });
-// });
-//  //  // Send messages on user connection
-//  //  socket.emit('INIT_MESSAGES', messages);
+  socket.on('NEW_MESSAGE', (data) => {
+    // Assuming 'messages' is an array defined outside this function
+    messages.push(data);
+    io.emit('INIT_MESSAGES', messages); // Emit the updated message to all connected clients
+  });
 
-// });
-
-//  //   io.emit('INIT_MESSAGES', messages);
-//  //  });
-// });
+  // Send messages on user connection
+  socket.emit('INIT_MESSAGES', messages);
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -52,17 +49,17 @@ app.use('/public/avatars', express.static(`${__dirname}/public/images/avatar`));
 app.use('/public/posts', express.static(`${__dirname}/public/images/post`));
 
 app.get(
- '/udin',
- (req, res, next) => {
-  res.send('udin');
-  next();
- },
- (req, res) => {
-  res.send('udin2');
- }
+  '/udin',
+  (req, res, next) => {
+    res.send('udin');
+    next();
+  },
+  (req, res) => {
+    res.send('udin2');
+  }
 );
 
 server.listen(PORT, () => {
- console.log(`listen on port ${PORT}`);
- //  db.sequelize.sync({ alter: true });
+  console.log(`listen on port ${PORT}`);
+  //  db.sequelize.sync({ alter: true });
 });
