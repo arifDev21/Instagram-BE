@@ -59,8 +59,8 @@ app.get(
   }
 );
 
-const server = http.createServer(app);
-server.listen(PORT, () => {
+const server1 = http.createServer(app);
+server1.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   // db.sequelize.sync({ alter: true });
 });
