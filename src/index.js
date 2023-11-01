@@ -5,18 +5,18 @@ const {
   postlikeRoutes,
   followRoutes,
   messageRoutes,
-} = require('./routes');
+} = require('./src/routes');
 require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 2000;
 const app = express();
 const cors = require('cors');
-const db = require('./models');
+const db = require('./src/models');
 const bearerToken = require('express-bearer-token');
 
 //socket io
 const http = require('http');
-
+const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server, { cors: { origin: '*' } });
 global.io = io;
@@ -59,8 +59,7 @@ app.get(
   }
 );
 
-const server1 = http.createServer(app);
-server1.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+server.listen(PORT, () => {
+  console.log(`listen on port ${PORT}`);
   // db.sequelize.sync({ alter: true });
 });
