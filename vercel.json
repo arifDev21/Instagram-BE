@@ -6,7 +6,7 @@
       "use": "@versel/node"
     }
   ],
-  "rouetes": [
+  "routes": [
     {
       "src": "/(.*)",
       "dest": "/"
