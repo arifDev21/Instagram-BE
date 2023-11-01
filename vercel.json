@@ -1,0 +1,15 @@
+{
+  "versio": 2,
+  "build": [
+    {
+      "src": "./index.js",
+      "use": "@versel/node"
+    }
+  ],
+  "rouetes": [
+    {
+      "src": "/(.*)",
+      "dest": "/"
+    }
+  ]
+}
