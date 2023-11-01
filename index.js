@@ -5,13 +5,13 @@ const {
   postlikeRoutes,
   followRoutes,
   messageRoutes,
-} = require('./routes');
+} = require('./src/routes');
 require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 2000;
 const app = express();
 const cors = require('cors');
-const db = require('./models');
+const db = require('./src/models');
 const bearerToken = require('express-bearer-token');
 
 //socket io
