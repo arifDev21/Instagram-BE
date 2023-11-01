@@ -16,7 +16,7 @@ const bearerToken = require('express-bearer-token');
 
 //socket io
 const http = require('http');
-const server = http.createServer(app);
+
 const { Server } = require('socket.io');
 const io = new Server(server, { cors: { origin: '*' } });
 global.io = io;
@@ -59,7 +59,8 @@ app.get(
   }
 );
 
+const server = http.createServer(app);
 server.listen(PORT, () => {
-  console.log(`listen on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
   // db.sequelize.sync({ alter: true });
 });

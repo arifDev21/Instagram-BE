@@ -4,61 +4,57 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
+const { createPool } = require('mysql2/promise');
+
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+const config = require(`${__dirname}/../config/config.js`)[env];
+
 const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
- sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  sequelize = new Sequelize(process.env[config.use_env_variable], {});
 } else {
- sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
- );
+  sequelize = new Sequelize(config.database, config.username, config.password, {
+    dialect: process.env.MYSQL_DIALECT,
+  });
 }
 
-fs
- .readdirSync(__dirname)
- .filter((file) => {
-  return (
-   file.indexOf('.') !== 0 &&
-   file !== basename &&
-   file.slice(-3) === '.js' &&
-   file.indexOf('.test.js') === -1
-  );
- })
- .forEach((file) => {
-  const model = require(path.join(__dirname, file))(
-   sequelize,
-   Sequelize.DataTypes
-  );
-  db[model.name] = model;
- });
-
-Object.keys(db).forEach((modelName) => {
- if (db[modelName].associate) {
-  db[modelName].associate(db);
- }
+const mysqlConnection = createPool({
+  host: process.env.MYSQL_HOST,
+  port: process.env.PORT,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+db.mysqlConnection = mysqlConnection;
+fs.readdirSync(__dirname)
+  .filter(
+    (file) =>
+      file.indexOf('.') !== 0 &&
+      file !== basename &&
+      file.slice(-3) === '.js' &&
+      file.indexOf('.test.js') === -1
+  )
+  .forEach((file) => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
+    db[model.name] = model;
+  });
 
-const insertModel = (path) => {
- const model = require(path)(sequelize, Sequelize);
- model.associate(db);
- return model;
-};
-
-db.Comment = insertModel('./comment');
-db.Follow = insertModel('./follow');
-db.Message = insertModel('./message');
-db.Post = insertModel('./post');
-db.PostLike = insertModel('./postlike');
-db.User = insertModel('./user');
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
 
 module.exports = db;
