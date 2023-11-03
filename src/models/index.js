@@ -5,7 +5,7 @@ const path = require('path');
 const Sequelize = require('sequelize');
 
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 
 // Load your environment variables here
 const database = process.env.MYSQL_DATABASE;
@@ -20,7 +20,7 @@ const config = {
   password,
   host,
   port,
-  dialect: 'mysql', // Set the database dialect
+  dialect: 'mysql',
 };
 
 const db = {};
