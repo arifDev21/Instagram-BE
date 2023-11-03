@@ -13,6 +13,7 @@ const app = express();
 const cors = require('cors');
 const db = require('./src/models');
 const bearerToken = require('express-bearer-token');
+const mysql = require('mysql2');
 
 const options = {
   host: process.env.MYSQL_HOST,
