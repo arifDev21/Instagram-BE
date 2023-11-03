@@ -6,35 +6,35 @@ const route = express.Router();
 
 route.get('/', postController.getPosts.bind(postController));
 route.get(
- '/user/:userid',
- postController.getPostsByUserId.bind(postController)
+  '/user/:userid',
+  postController.getPostsByUserId.bind(postController)
 );
 route.get('/search', postController.getPostByFilter.bind(postController));
 route.get('/:id', postController.getById.bind(postController));
 route.delete(
- '/:id',
- check_verified,
- postController.deleteById.bind(postController)
+  '/:id',
+
+  postController.deleteById.bind(postController)
 );
 route.patch(
- '/:id',
- check_verified,
- fileUploader({
-  destinationFolder: 'post',
-  prefix: 'POST',
-  filetype: 'image'
- }).single('image'),
- postController.editPost.bind(postController)
+  '/:id',
+
+  fileUploader({
+    destinationFolder: 'post',
+    prefix: 'POST',
+    filetype: 'image',
+  }).single('image'),
+  postController.editPost.bind(postController)
 );
 route.post(
- '/',
- check_verified,
- fileUploader({
-  destinationFolder: 'post',
-  prefix: 'POST',
-  filetype: 'image'
- }).single('image'),
- postController.createPost.bind(postController)
+  '/',
+
+  fileUploader({
+    destinationFolder: 'post',
+    prefix: 'POST',
+    filetype: 'image',
+  }).single('image'),
+  postController.createPost.bind(postController)
 );
 
 module.exports = route;
