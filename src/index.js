@@ -5,13 +5,13 @@ const {
   postlikeRoutes,
   followRoutes,
   messageRoutes,
-} = require('./src/routes');
+} = require('./routes');
 require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 2000;
 const app = express();
 const cors = require('cors');
-const db = require('./src/models');
+const db = require('./models');
 const bearerToken = require('express-bearer-token');
 const mysql = require('mysql2');
 
