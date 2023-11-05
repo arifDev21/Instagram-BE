@@ -5,14 +5,36 @@ const {
   postlikeRoutes,
   followRoutes,
   messageRoutes,
-} = require('./src/routes');
+} = require('./routes');
 require('dotenv').config();
 const express = require('express');
 const PORT = process.env.PORT || 2000;
 const app = express();
 const cors = require('cors');
-const db = require('./src/models');
+const db = require('./models');
 const bearerToken = require('express-bearer-token');
+const mysql = require('mysql2');
+
+const options = {
+  host: 'roundhouse.proxy.rlwy.net',
+  port: 43446,
+  user: 'root',
+  password: 'Eed-13BFC26-g1bA2aDAChAfE1442g4e',
+  database: 'railway',
+};
+
+const connection = mysql.createConnection(options);
+
+async function connectToDatabase() {
+  try {
+    await connection.connect();
+    console.log('tes connect');
+  } catch (err) {
+    console.error('Error connecting to the database:', err);
+  }
+}
+
+connectToDatabase();
 
 //socket io
 const http = require('http');
@@ -60,7 +82,7 @@ app.get(
   }
 );
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`listen on port ${PORT}`);
   // db.sequelize.sync({ alter: true });
 });
