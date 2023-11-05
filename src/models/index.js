@@ -52,4 +52,8 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+db.Video = require("./video")(sequelize, Sequelize)
+db.VideLike = require("./videolike")(sequelize, Sequelize)
+db.VideoComment = require("./videocomment")(sequelize, Sequelize)
+
 module.exports = db;

@@ -40,6 +40,7 @@ connectToDatabase();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
+const routers = require('./routes');
 const io = new Server(server, { cors: { origin: '*' } });
 global.io = io;
 module.exports = { io };
@@ -67,6 +68,10 @@ app.use('/comments', commentRoutes);
 app.use('/postlike', postlikeRoutes);
 app.use('/follows', followRoutes);
 app.use('/messages', messageRoutes);
+app.use('/video', routers.videoRoutes )
+app.use('/videolike', routers.videolikeRoutes)
+app.use('/videocomment', routers.videocommentRoutes)
+
 app.use('/public/avatars', express.static(`${__dirname}/public/images/avatar`));
 app.use('/public/posts', express.static(`${__dirname}/public/images/post`));
 

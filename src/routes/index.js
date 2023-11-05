@@ -4,6 +4,9 @@ const commentRoutes = require('./comment');
 const postlikeRoutes = require('./postlike');
 const followRoutes = require('./follow');
 const messageRoutes = require('./message');
+const videoRoutes = require("./video")
+const videolikeRoutes = require ("./videolike")
+const videocommentRoutes = require("./videocomment")
 
 const routers = {
  authRoutes,
@@ -11,7 +14,11 @@ const routers = {
  commentRoutes,
  postlikeRoutes,
  followRoutes,
- messageRoutes
+ messageRoutes,
+ videoRoutes,
+ videolikeRoutes,
+ videocommentRoutes
+
 };
 
 module.exports = routers;
