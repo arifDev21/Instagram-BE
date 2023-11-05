@@ -48,6 +48,7 @@ app.use('/messages', messageRoutes);
 app.use('/public/avatars', express.static(`${__dirname}/public/images/avatar`));
 app.use('/public/posts', express.static(`${__dirname}/public/images/post`));
 
+
 app.get(
   '/udin',
   (req, res, next) => {
