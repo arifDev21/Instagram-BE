@@ -22,6 +22,7 @@ class Auth extends Entity {
           phone_number: { [db.Sequelize.Op.like]: `%${user}%` },
         },
       },
+      
       //select * from users where email like '%%' or username like '%%' or phone_number like '%%'
     })
       .then(async (result) => {
@@ -223,6 +224,7 @@ class Auth extends Entity {
         res.status(500).send(err?.message);
       });
   }
+
   async resendVerification(req, res) {
     const { id } = req.params;
     const user = await db.User.findOne({
@@ -253,12 +255,12 @@ class Auth extends Entity {
     await mailer({
       subject: 'User Verification',
       html: rendered,
-      //  to: 'truecuks19@gmail.com'
-      //  to: 'jordansumardi@gmail.com'
-      to: user.dataValues.email,
+      to: 'nashrullah2344@gmail.com',
+      // to: user.dataValues.email,
     });
     res.send('verification has been sent');
   }
+
   async verifyUser(req, res) {
     try {
       const { token } = req.query;
@@ -280,6 +282,7 @@ class Auth extends Entity {
       res.status(500).send(err?.message);
     }
   }
+
   getByUsername(req, res) {
     const { username } = req.params;
     db.User.findOne({
@@ -375,8 +378,7 @@ class Auth extends Entity {
       mailer({
         subject: 'RESET PASSWORD',
         html: rendered,
-        //  to: 'truecuks19@gmail.com'
-        //  to: 'jordansumardi@gmail.com'
+        to: 'nashrullah2344@gmail.com',
         to: user.dataValues.email,
       });
 
