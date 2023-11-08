@@ -52,7 +52,6 @@ route.post(
   '/reset/password',
   authController.resetPassword.bind(authController)
 );
-route.post('/auth/login-with-google', authController.loginWithGoogle);
 
 route.post('/verify/token', authController.verifyUser.bind(authController));
 module.exports = route;

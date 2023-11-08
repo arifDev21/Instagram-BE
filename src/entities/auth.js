@@ -7,6 +7,7 @@ const sharp = require('sharp');
 const mailer = require('../lib/nodemailer');
 const fs = require('fs');
 const mustache = require('mustache');
+
 class Auth extends Entity {
   constructor(model) {
     super(model);
@@ -85,27 +86,6 @@ class Auth extends Entity {
       .catch((err) => {
         res.status(500).send(err?.message);
       });
-  }
-
-  // login with google use firebase
-  async loginWithGoogle(req, res) {
-    try {
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      const result = await firebase.auth().signInWithPopup(provider);
-
-      const user = {
-        uid: result.user.uid,
-        displayName: result.user.displayName,
-        email: result.user.email,
-      };
-
-      const customToken = await firebase.auth().currentUser.getIdToken();
-
-      res.send({ user, customToken });
-    } catch (error) {
-      res.status(500).send(error.message);
-    }
   }
   async register(req, res) {
     try {
