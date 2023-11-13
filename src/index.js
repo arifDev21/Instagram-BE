@@ -15,26 +15,26 @@ const db = require('./models');
 const bearerToken = require('express-bearer-token');
 const mysql = require('mysql2');
 
-const options = {
-  host: 'roundhouse.proxy.rlwy.net',
-  port: 43446,
-  user: 'root',
-  password: 'Eed-13BFC26-g1bA2aDAChAfE1442g4e',
-  database: 'railway',
-};
+// const options = {
+//   host: 'roundhouse.proxy.rlwy.net',
+//   port: 43446,
+//   user: 'root',
+//   password: 'Eed-13BFC26-g1bA2aDAChAfE1442g4e',
+//   database: 'railway',
+// };
 
-const connection = mysql.createConnection(options);
+// const connection = mysql.createConnection(options);
 
-async function connectToDatabase() {
-  try {
-    await connection.connect();
-    console.log('tes connect');
-  } catch (err) {
-    console.error('Error connecting to the database:', err);
-  }
-}
+// async function connectToDatabase() {
+//   try {
+//     await connection.connect();
+//     console.log('tes connect');
+//   } catch (err) {
+//     console.error('Error connecting to the database:', err);
+//   }
+// }
 
-connectToDatabase();
+// connectToDatabase();
 
 //socket io
 const http = require('http');
@@ -68,13 +68,12 @@ app.use('/comments', commentRoutes);
 app.use('/postlike', postlikeRoutes);
 app.use('/follows', followRoutes);
 app.use('/messages', messageRoutes);
-app.use('/video', routers.videoRoutes )
-app.use('/videolike', routers.videolikeRoutes)
-app.use('/videocomment', routers.videocommentRoutes)
+app.use('/video', routers.videoRoutes);
+app.use('/videolike', routers.videolikeRoutes);
+app.use('/videocomment', routers.videocommentRoutes);
 
 app.use('/public/avatars', express.static(`${__dirname}/public/images/avatar`));
 app.use('/public/posts', express.static(`${__dirname}/public/images/post`));
-
 
 app.get(
   '/udin',
