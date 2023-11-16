@@ -6,7 +6,19 @@ const {
   followRoutes,
   messageRoutes,
 } = require('./routes');
+
 require('dotenv').config();
+// const { db_username, db_password, db_database, db_host, db_dialect, db_port } =
+//   process.env;
+
+const {
+  MYSQL_USER,
+  MYSQL_PASSWORD,
+  MYSQL_DATABASE,
+  MYSQL_HOST,
+  MYSQL_DIALECT,
+  MYSQL_PORT,
+} = process.env;
 const express = require('express');
 const PORT = process.env.PORT || 2000;
 const app = express();
@@ -15,27 +27,34 @@ const db = require('./models');
 const bearerToken = require('express-bearer-token');
 const mysql = require('mysql2');
 
+const options = {
+  host: MYSQL_HOST,
+  port: MYSQL_PORT,
+  user: MYSQL_USER,
+  password: MYSQL_PASSWORD,
+  database: MYSQL_DATABASE,
+};
+// console.log(options);
 // const options = {
-//   host: 'roundhouse.proxy.rlwy.net',
-//   port: 43446,
-//   user: 'root',
-//   password: 'Eed-13BFC26-g1bA2aDAChAfE1442g4e',
-//   database: 'railway',
+//   host: db_host,
+//   port: db_port,
+//   user: db_username,
+//   password: db_password,
+//   database: db_database,
 // };
+const connection = mysql.createConnection(options);
 
-// const connection = mysql.createConnection(options);
+async function connectToDatabase() {
+  try {
+    await connection.connect();
+    console.log('connecting to the database');
+  } catch (err) {
+    console.error('Error connecting to the database:', err);
+  }
+}
 
-// async function connectToDatabase() {
-//   try {
-//     await connection.connect();
-//     console.log('tes connect');
-//   } catch (err) {
-//     console.error('Error connecting to the database:', err);
-//   }
-// }
-
-// connectToDatabase();
-
+connectToDatabase();
+console.log(options);
 //socket io
 const http = require('http');
 const server = http.createServer(app);
