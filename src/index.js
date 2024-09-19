@@ -8,17 +8,9 @@ const {
 } = require('./routes');
 
 require('dotenv').config();
-// const { db_username, db_password, db_database, db_host, db_dialect, db_port } =
-//   process.env;
+const { db_username, db_password, db_database, db_host, db_dialect, db_port } =
+  process.env;
 
-const {
-  MYSQL_USER,
-  MYSQL_PASSWORD,
-  MYSQL_DATABASE,
-  MYSQL_HOST,
-  MYSQL_DIALECT,
-  MYSQL_PORT,
-} = process.env;
 const express = require('express');
 const PORT = process.env.PORT || 2000;
 const app = express();
@@ -27,21 +19,15 @@ const db = require('./models');
 const bearerToken = require('express-bearer-token');
 const mysql = require('mysql2');
 
-const options = {
-  host: MYSQL_HOST,
-  port: MYSQL_PORT,
-  user: MYSQL_USER,
-  password: MYSQL_PASSWORD,
-  database: MYSQL_DATABASE,
-};
+
 // console.log(options);
-// const options = {
-//   host: db_host,
-//   port: db_port,
-//   user: db_username,
-//   password: db_password,
-//   database: db_database,
-// };
+const options = {
+  host: db_host,
+  port: 3306,
+  user: db_username,
+  password: db_password,
+  database: db_database,
+};
 const connection = mysql.createConnection(options);
 
 async function connectToDatabase() {
@@ -64,6 +50,7 @@ const io = new Server(server, { cors: { origin: '*' } });
 global.io = io;
 module.exports = { io };
 
+const messages =[]
 io.on('connection', (socket) => {
   console.log('user connected');
 
@@ -107,5 +94,6 @@ app.get(
 
 server.listen(PORT, () => {
   console.log(`listen on port ${PORT}`);
-  // db.sequelize.sync({ alter: true });
+  db.sequelize.sync({ alter: true });
 });
+module.exports = app;
